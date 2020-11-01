@@ -23,19 +23,6 @@ namespace MstestTest.Tests
         }
 
         /// <summary>
-        /// Private変数
-        /// </summary>
-        [TestMethod()]
-        public void GetPrivateMemberValueTest()
-        {
-            var instance = new TestTargetClass();
-            var privateObject = new PrivateObject(instance);
-            privateObject.SetFieldOrProperty("_privateMember", 100);
-            var ret = instance.GetPrivateMemberValue();
-            Assert.AreEqual(ret,100);
-        }
-
-        /// <summary>
         /// Privateメソッド
         /// </summary>
         [TestMethod()]
@@ -43,8 +30,12 @@ namespace MstestTest.Tests
         {
             var instance = new TestTargetClass();
             var privateObject = new PrivateObject(instance);
+
+            // メンバ変数値変更
+            privateObject.SetFieldOrProperty("_privateMember", 100);
+            // Privateメソッド呼び出し
             var ret = privateObject.Invoke("PrivateMethod", 100, 200);
-            Assert.AreEqual(ret, 300);
+            Assert.AreEqual(ret, 400);
         }
 
         /// <summary>
@@ -56,6 +47,7 @@ namespace MstestTest.Tests
         {
             var instance = new TestTargetClass();
             var privateObject = new PrivateObject(instance);
+            // 戻り値の型でくるんでawait
             var ret = await (privateObject.Invoke("PrivateMethodAsync", 100, 200) as Task<int>);
             Assert.AreEqual(ret, 300);
         }
@@ -67,7 +59,9 @@ namespace MstestTest.Tests
         public void GetPrivateStaticMemberTest()
         {
             var privateType = new PrivateType(typeof(TestTargetClass));
+            // static変数値変更
             privateType.SetStaticFieldOrProperty("_privateStaticMember", "ヨシッ！");
+            // staticメソッド呼び出し
             var ret = privateType.InvokeStatic("GetPrivateStaticMember");
 
             Assert.AreEqual(ret, "ヨシッ！");
