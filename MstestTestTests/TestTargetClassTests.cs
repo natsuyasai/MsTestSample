@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using MstestTest;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,25 @@ namespace MstestTest.Tests
             var ret = privateType.InvokeStatic("GetPrivateStaticMember");
 
             Assert.AreEqual(ret, "ヨシッ！");
+        }
+
+        [TestMethod()]
+        public void GetIFReturnTest()
+        {
+            var mock = new Mock<ITestTargetIF>();
+            mock.Setup(x => x.IsEnable("Test"))
+                .Returns(false);
+            var instance = new TestTargetClass(mock.Object);
+            var ret = instance.GetIFReturn("Test");
+            Assert.AreEqual(ret, false);
+        }
+
+        [TestMethod()]
+        public void GetIFReturnTest_Error()
+        {
+            var instance = new TestTargetClass();
+            var ret = instance.GetIFReturn("Test");
+            Assert.AreEqual(ret, false);
         }
     }
 }

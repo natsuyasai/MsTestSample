@@ -11,6 +11,19 @@ namespace MstestTest
     /// </summary>
     public class TestTargetClass
     {
+        private ITestTargetIF _testInterface;
+
+        /// <summary>
+        /// コンストラクタ(デフォルト）
+        /// </summary>
+        public TestTargetClass() => _testInterface = new TestTargetIFConcrete();
+
+        /// <summary>
+        /// コンストラクタ(DI)
+        /// </summary>
+        /// <param name="testTargetIF"></param>
+        public TestTargetClass(ITestTargetIF testTargetIF) => _testInterface = testTargetIF;
+
         /// <summary>
         /// Privateメンバ変数
         /// </summary>
@@ -29,6 +42,15 @@ namespace MstestTest
         public int PublicMethod(int param)
         {
             return param + 1;
+        }
+
+        /// <summary>
+        /// 外部依存
+        /// </summary>
+        /// <returns></returns>
+        public bool GetIFReturn(string str)
+        {
+            return _testInterface.IsEnable(str);
         }
 
         /// <summary>
