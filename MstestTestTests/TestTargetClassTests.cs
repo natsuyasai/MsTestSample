@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MstestTest;
+using MstestTestTests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,7 +83,7 @@ namespace MstestTest.Tests
         [TestMethod()]
         public void GetIFReturnTest_Error()
         {
-            var instance = new TestTargetClass();
+            var instance = new TestTargetClass(new TestTargetIFStub());
             var ret = instance.GetIFReturn("Test");
             Assert.AreEqual(ret, false);
         }
